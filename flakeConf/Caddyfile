@@ -1,0 +1,33 @@
+{
+    log default {
+        level {$CADDY_LOG_LEVEL:INFO}
+    }
+}
+
+(common) {
+    php_fastcgi php:9000 # Adjust to your setup
+    file_server
+    encode zstd gzip
+}
+
+(kirby) {
+    @blocked {
+        path /content/* /site/* /kirby/* /.*
+    }
+    error @blocked "Not found" 404
+    handle_errors {
+        rewrite * /error # This should reference your Kirby error page
+        import common
+    }
+}
+
+:{$CADDY_PORT} {
+    import common
+    import kirby
+
+    log
+    root * public
+    encode gzip
+    php_fastcgi unix/{$PHP_SOCKET}
+    file_server
+}

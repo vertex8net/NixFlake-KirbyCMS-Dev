@@ -35,7 +35,7 @@
             export PHP_SOCKET="$PWD/.run/php-fpm-${envName}.sock"
             
             echo "Starting ${envName} environment (Caddy on port $CADDY_PORT)..."
-            ${pkgs.process-compose}/bin/process-compose -p 0 -f process-compose.yml up
+            ${pkgs.process-compose}/bin/process-compose -p 0 -f flakeConf/process-compose.yml up
           '';
 
       in

@@ -2,12 +2,12 @@ version: "0.5"
 
 processes:
   php-fpm:
-    command: bash -c "rm -f ${PHP_SOCKET} && exec php-fpm -y php-fpm.conf --nodaemonize"
+    command: bash -c "rm -f ${PHP_SOCKET} && exec php-fpm -y flakeConf/php-fpm.conf --nodaemonize"
     availability:
       restart: "on_failure"
 
   caddy:
-    command: caddy run --config Caddyfile
+    command: caddy run --config flakeConf/Caddyfile
     depends_on:
       php-fpm:
         condition: process_started
