@@ -6,13 +6,15 @@
 
 (common) {
     php_fastcgi unix/{$PHP_SOCKET}
-    file_server
+    file_server {
+        browse
+    }
     encode zstd gzip
 }
 
 (kirby) {
     @blocked {
-        path /content/* /site/* /kirby/* /.*
+        path public/content/* public/site/* public/kirby/* public/.*
     }
     error @blocked "Not found" 404
     handle_errors {
@@ -28,5 +30,4 @@
     log
     root * public
     encode gzip
-    file_server
 }
