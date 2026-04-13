@@ -5,6 +5,7 @@
 }
 
 :{$CADDY_PORT} {
+    log
     root * public
     encode gzip
     php_fastcgi unix/{$PHP_SOCKET}
