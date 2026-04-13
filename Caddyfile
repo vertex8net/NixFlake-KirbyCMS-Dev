@@ -1,0 +1,12 @@
+{
+    log default {
+        level {$CADDY_LOG_LEVEL:INFO}
+    }
+}
+
+:{$CADDY_PORT} {
+    root * public
+    encode gzip
+    php_fastcgi unix/{$PHP_SOCKET}
+    file_server
+}
