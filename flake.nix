@@ -49,6 +49,10 @@
                 fi
             done
 
+            echo "Validating configurations..."
+            ${pkgs.caddy}/bin/caddy validate --config flakeConf/Caddyfile --adapter caddyfile || exit 1
+            ${phpPkg}/bin/php-fpm -y flakeConf/php-fpm.conf -t || exit 1
+
             echo "Starting ${envName} environment (Caddy on port $CADDY_PORT)..."
             ${pkgs.process-compose}/bin/process-compose -p 0 -f flakeConf/process-compose.yml up
           '';

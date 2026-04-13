@@ -5,7 +5,7 @@
 }
 
 (common) {
-    php_fastcgi php:9000 # Adjust to your setup
+    php_fastcgi unix/{$PHP_SOCKET}
     file_server
     encode zstd gzip
 }
@@ -28,6 +28,5 @@
     log
     root * public
     encode gzip
-    php_fastcgi unix/{$PHP_SOCKET}
     file_server
 }

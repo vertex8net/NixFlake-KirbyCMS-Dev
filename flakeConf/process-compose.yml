@@ -3,6 +3,11 @@ version: "0.5"
 processes:
   php-fpm:
     command: bash -c "rm -f ${PHP_SOCKET} && exec php-fpm -y flakeConf/php-fpm.conf --nodaemonize"
+    readiness_probe:
+      exec:
+        command: "test -S ${PHP_SOCKET}"
+      initial_delay_seconds: 1
+      period_seconds: 1
     availability:
       restart: "on_failure"
 
