@@ -74,6 +74,8 @@
               phpPkg
               phpPkg.packages.composer
               pkgs.process-compose
+              pkgs.git
+              pkgs.gh
             ];
 
             shellHook = ''
