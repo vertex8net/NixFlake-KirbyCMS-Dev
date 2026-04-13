@@ -14,7 +14,6 @@
         # === Configuration ===
         phpPkg = pkgs.php83;
         devPort = 8080;
-        prodPort = 80;
         # =====================
         
         # Helper to create a start script for process-compose
@@ -34,13 +33,11 @@
         packages = {
           default = self.packages.${system}.dev;
           dev = mkRunner "dev" devPort "DEBUG";
-          prod = mkRunner "prod" prodPort "INFO";
         };
 
         apps = {
           default = flake-utils.lib.mkApp { drv = self.packages.${system}.dev; };
           dev = flake-utils.lib.mkApp { drv = self.packages.${system}.dev; };
-          prod = flake-utils.lib.mkApp { drv = self.packages.${system}.prod; };
         };
 
         devShells = {
@@ -62,25 +59,6 @@
               
               echo "Caddy & PHP Development Environment"
               echo "Run 'nix run .#dev' or 'process-compose up' to start the services."
-            '';
-          };
-          
-          prod = pkgs.mkShell {
-            buildInputs = [
-              pkgs.caddy
-              phpPkg
-              phpPkg.packages.composer
-              pkgs.process-compose
-            ];
-
-            shellHook = ''
-              export APP_ENV="prod"
-              export CADDY_PORT="${toString prodPort}"
-              export CADDY_LOG_LEVEL="INFO"
-              export PHP_SOCKET="/tmp/php-fpm-prod.sock"
-              
-              echo "Caddy & PHP Production Environment"
-              echo "Run 'nix run .#prod' to start the services."
             '';
           };
         };
