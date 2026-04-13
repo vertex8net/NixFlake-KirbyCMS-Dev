@@ -1,6 +1,6 @@
-# Caddy & PHP-FPM Development Suite
+# KirbyCMS Development Suite
 
-A portable, isolated development environment powered by Nix Flakes and Process-Compose.
+A portable, isolated KirbyCMS development environment powered by Nix Flakes and Process-Compose.
 
 ## 🚀 Quick Setup
 
