@@ -22,7 +22,8 @@
             export APP_ENV="${envName}"
             export CADDY_PORT="${toString port}"
             export CADDY_LOG_LEVEL="${logLevel}"
-            export PHP_SOCKET="/tmp/php-fpm-${envName}.sock"
+            mkdir -p $PWD/.run
+            export PHP_SOCKET="$PWD/.run/php-fpm-${envName}.sock"
             
             echo "Starting ${envName} environment (Caddy on port $CADDY_PORT)..."
             ${pkgs.process-compose}/bin/process-compose -p ''${PC_PORT:-8080} -f process-compose.yml up
@@ -55,7 +56,7 @@
               export APP_ENV="dev"
               export CADDY_PORT="${toString devPort}"
               export CADDY_LOG_LEVEL="DEBUG"
-              export PHP_SOCKET="/tmp/php-fpm-dev.sock"
+              export PHP_SOCKET="$PWD/.run/php-fpm-dev.sock"
               
               echo "Caddy & PHP Development Environment"
               echo "Run 'nix run .#dev' or 'process-compose up' to start the services."

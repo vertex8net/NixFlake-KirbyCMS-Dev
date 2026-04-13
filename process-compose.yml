@@ -2,7 +2,7 @@ version: "0.5"
 
 processes:
   php-fpm:
-    command: php-fpm -y php-fpm.conf --nodaemonize
+    command: bash -c "rm -f ${PHP_SOCKET} && exec php-fpm -y php-fpm.conf --nodaemonize"
     availability:
       restart: "on_failure"
 
