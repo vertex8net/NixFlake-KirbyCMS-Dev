@@ -12,7 +12,16 @@
         pkgs = nixpkgs.legacyPackages.${system};
         
         # === Configuration ===
-        phpPkg = pkgs.php83;
+        phpPkg = pkgs.php83.buildEnv {
+          extensions = ({ enabled, all }: enabled ++ (with all; [
+            gd
+            imagick
+            exif
+            intl
+            # Note: Core modules like json, hash, ctype, curl, dom, openssl, mbstring, etc.
+            # are inherently built-in natively to Nix's PHP compiler by default!
+          ]));
+        };
         devPort = 8080;
         # =====================
         
