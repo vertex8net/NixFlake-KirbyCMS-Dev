@@ -23,3 +23,9 @@ processes:
       caddy:
         condition: process_started
 
+  watcher:
+    command: watchexec --ignore-nothing -w sites/ -f "sites/*" -f "sites/*/composer.json" ./flakeConf/reload-all.sh
+
+    depends_on:
+      caddy:
+        condition: process_started

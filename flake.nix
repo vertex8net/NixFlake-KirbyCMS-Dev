@@ -38,20 +38,14 @@
             mkdir -p "$PROJECT_ROOT/.run/www"
             export PHP_SOCKET="$PROJECT_ROOT/.run/php-fpm-${envName}.sock"
             
+            # Ensure all scripts are executable
+            chmod +x flakeConf/*.sh
+            
             # Dynamically build index and subdomains
-            chmod +x flakeConf/generate-configs.sh
             ./flakeConf/generate-configs.sh
             
             # Composer Auto-Install: Scan sites/ and sites/* for composer.json
-            echo "Checking for composer.json in sites/..."
-            ${pkgs.findutils}/bin/find sites -maxdepth 2 -name composer.json -exec dirname {} \; | while read dir; do
-                if [ ! -d "$dir/vendor" ]; then
-                    echo "Running composer install in $dir..."
-                    (cd "$dir" && ${phpPkg.packages.composer}/bin/composer install)
-                else
-                    echo "Composer vendor already exists in $dir, skipping install."
-                fi
-            done
+            ./flakeConf/install-deps.sh
 
             echo "Validating configurations..."
             ${pkgs.caddy}/bin/caddy validate --config flakeConf/Caddyfile --adapter caddyfile || exit 1
@@ -85,6 +79,7 @@
               pkgs.git
               pkgs.gh
               pkgs.xdg-utils
+              pkgs.watchexec
             ];
 
             shellHook = ''
