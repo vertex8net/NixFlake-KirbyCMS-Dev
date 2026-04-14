@@ -23,11 +23,11 @@ cat > "$DYNAMIC_WWW/index.html" <<EOF
         body { font-family: system-ui, -apple-system, sans-serif; margin: 40px auto; max-width: 600px; line-height: 1.6; background: #f9f9f9; color: #333; }
         h1 { border-bottom: 2px solid #eaeaea; padding-bottom: 10px; color: #222; }
         ul { list-style-type: none; padding: 0; }
-        li { margin: 15px 0; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.1s; }
+        li { margin: 15px 0; background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); transition: transform 0.1s; overflow: hidden; }
         li:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        a { text-decoration: none; color: #0366d6; font-size: 18px; font-weight: 500; display: block; }
-        a:hover { color: #0056b3; }
-        .subdomain { font-family: monospace; font-size: 14px; color: #666; margin-top: 4px; }
+        a { text-decoration: none; color: #0366d6; font-size: 18px; font-weight: 500; display: block; padding: 15px; }
+        a:hover { color: #0056b3; background: #fcfcfc; }
+        .subdomain { font-family: monospace; font-size: 14px; color: #666; margin-top: 4px; font-weight: normal; }
     </style>
 </head>
 <body>
@@ -49,7 +49,7 @@ for dir in "$PROJECT_ROOT/sites/"*/; do
         
         if [ ! -z "$sanitized" ]; then
             url="http://$sanitized.localhost:$CADDY_PORT"
-            echo "<li><a href=\"$url\">$basename</a><div class=\"subdomain\">$url</div></li>" >> "$DYNAMIC_WWW/index.html"
+            echo "<li><a href=\"$url\">$basename<div class=\"subdomain\">$url</div></a></li>" >> "$DYNAMIC_WWW/index.html"
             
             cat >> "$DYNAMIC_CADDYFILE" <<EOF
 http://$sanitized.localhost:{\$CADDY_PORT} {
