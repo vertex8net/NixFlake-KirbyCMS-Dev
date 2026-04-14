@@ -1,3 +1,4 @@
 .run/
 .direnv/
-public/
+sites/*
+!sites/ADD_KIRBYCMS_FOLDERS_HERE

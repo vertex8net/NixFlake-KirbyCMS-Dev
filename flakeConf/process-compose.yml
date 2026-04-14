@@ -16,3 +16,10 @@ processes:
     depends_on:
       php-fpm:
         condition: process_started
+
+  browser:
+    command: bash -c "sleep 1 && xdg-open http://localhost:$CADDY_PORT"
+    depends_on:
+      caddy:
+        condition: process_started
+

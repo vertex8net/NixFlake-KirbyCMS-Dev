@@ -6,15 +6,13 @@
 
 (common) {
     php_fastcgi unix/{$PHP_SOCKET}
-    file_server {
-        browse
-    }
+    file_server
     encode zstd gzip
 }
 
 (kirby) {
     @blocked {
-        path public/content/* public/site/* public/kirby/* public/.*
+        path content/* site/* kirby/* /.*
     }
     error @blocked "Not found" 404
     handle_errors {
@@ -23,11 +21,10 @@
     }
 }
 
-:{$CADDY_PORT} {
+http://localhost:{$CADDY_PORT} {
     import common
-    import kirby
-
+    root * {$PROJECT_ROOT}/.run/www
     log
-    root * public
-    encode gzip
 }
+
+import {$PROJECT_ROOT}/.run/Caddyfile.dynamic
