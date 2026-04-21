@@ -89,7 +89,7 @@
               export PHP_SOCKET="$PWD/.run/php-fpm-dev.sock"
               
               echo "Caddy & PHP Development Environment"
-              echo "Run 'nix run .#dev' or 'process-compose up' to start the services."
+              printf "\n\n\033[0;32mRun 'nix run' to start the services.\033[0m\n\n\n"
             '';
           };
         };
